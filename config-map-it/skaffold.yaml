@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2beta17
+kind: Config
+build:
+  artifacts:
+    - image: config-map-it
+      custom:
+        buildCommand: ./build.sh
+  local:
+    useDockerCLI: false
+    useBuildkit: false
+    push: false
+
+
+deploy:
+  helm:
+    releases:
+      - name: config-map-it
+        artifactOverrides:
+          image: zero-x/spring-cloud-kubernetes/config-map-it

@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    //id 'com.kiwigrid.helm' version '1.6.0'
+}
+
+group 'zero.x.spring'
+version 'k8s-it'
+
+subprojects {
+
+    apply plugin: 'java'
+    //apply plugin: 'com.kiwigrid.helm'
+
+    repositories {
+        jcenter()
+        mavenLocal()
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web:2.4.5'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator:2.4.5'
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// called by run.sh
+task findSubProjects {
+    doFirst {
+        subprojects.forEach { println(it.name) }
+    }
+}

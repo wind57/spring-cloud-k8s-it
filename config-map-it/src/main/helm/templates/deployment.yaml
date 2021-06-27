@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-map-it
+  namespace: spring-k8s
+spec:
+  selector:
+    matchLabels:
+      app: config-map-it
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: config-map-it
+    spec:
+      #automountServiceAccountToken: false # interesting option
+      containers:
+        - name: {{ .Chart.name }}
+          image: zero-x/spring-cloud-kubernetes/config-map-it
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+      serviceAccountName: config-map-it-service-account
