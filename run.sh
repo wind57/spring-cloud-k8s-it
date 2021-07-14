@@ -41,12 +41,14 @@ build_spring_cloud_kubernetes_project() {
 
 }
 
+# create cluster and namespace
 kind_setup() {
   # see if kind is already installed, if not : do it
   local kind_install
   kind_install="$(command -v kind || true)"
   if [[ $kind_install == "" ]]
   then
+    echo "kind not installed, installing"
     brew install kind
   else
     echo "kind already installed"
@@ -60,7 +62,7 @@ kind_setup() {
 
   if [[ "${clusters[@]}" =~ "spring-k8s" ]]
   then
-    echo "cluster spring-k8s already present" # delete/create
+    echo "cluster spring-k8s already present"
     kind delete cluster --name spring-k8s
     kind create cluster --name spring-k8s --wait 10m
   else
@@ -80,10 +82,20 @@ gradle_list_subprojects() {
   cd ..
   cd spring-cloud-kubernetes-it
   local subprojects
-  subprojects="$(gradle findSubProjects --quiet)"
+  subprojects="$(./gradlew findSubProjects --quiet)"
 
   IFS=$'\n'
   subprojects_array=($subprojects)
+}
+
+# build the image; load into kind; deploy it.
+skaffold_it() {
+  chmod +x build.sh
+  skaffold build --file-output=tag.json
+  deploy_tag="$(cat tag.json | jq '.builds[].tag' | cut -d '"' -f 2)"
+  kind load docker-image "${deploy_tag}" --name spring-k8s
+  skaffold deploy -a tag.json
+  cd ..
 }
 
 ##################################################################################
@@ -92,15 +104,14 @@ gradle_list_subprojects() {
 # this assumes helm/skaffold/helm-datree plugin on the machine, which is my case
 main() {
 
-  ################################# 0 #################################
-  kind_setup
-
-  ################################# 1 #################################
-  #TODO
-  #build_spring_cloud_kubernetes_project
-
-  ################################# 2 #################################
-  gradle_list_subprojects
+#  ################################# 0 #################################
+   kind_setup
+#
+#  ################################# 1 #################################
+   #build_spring_cloud_kubernetes_project
+#
+#  ################################# 2 #################################
+   gradle_list_subprojects
 
   for i in "${subprojects_array[@]}"
   do
@@ -119,7 +130,6 @@ main() {
       local what_image_ids_command
       what_image_ids_command="$(docker images --filter="reference=zero-x/spring-cloud-kubernetes/$i" --quiet)"
       docker_images=($what_image_ids_command)
-      # skaffold builds 2 images
       local docker_image_to_delete
       docker_image_to_delete="zero-x/spring-cloud-kubernetes/config-map-it:${docker_images[1]}"
       docker rmi -f $docker_image_to_delete
@@ -128,20 +138,14 @@ main() {
     local current_dir="$(pwd)"
     local proj_dir="$current_dir/$i"
     cd $proj_dir
+    skaffold_it
 
   ################################# 4 #################################
-    chmod +x build.sh
-    skaffold build
-    tag=$(echo tag.txt)
-    skaffold deploy --images $tag
-    cd ..
-
-
 
   done
-
-  ################################# 6 #################################
-  #uninstall_kind
+#
+#  ################################# 6 #################################
+#  #uninstall_kind
 
 }
 
