@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    configs.DummyServiceConfig,\
+    zero.x.spring.cloud.configs.DummyContributorConfig
+
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+    configs.DummyBootstrapConfig

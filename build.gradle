@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    //id 'com.kiwigrid.helm' version '1.6.0'
+    id 'com.kiwigrid.helm' version '1.6.0'
 }
 
 group 'zero.x.spring'
@@ -9,11 +9,11 @@ version 'k8s-it'
 subprojects {
 
     apply plugin: 'java'
-    //apply plugin: 'com.kiwigrid.helm'
+    apply plugin: 'com.kiwigrid.helm'
 
     repositories {
-        jcenter()
         mavenLocal()
+        mavenCentral()
     }
 
     dependencies {

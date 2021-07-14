@@ -1,8 +1,10 @@
 apiVersion: skaffold/v2beta17
 kind: Config
 build:
+  tagPolicy:
+    gitCommit: {}
   artifacts:
-    - image: config-map-it
+    - image: zero-x/spring-cloud-kubernetes/config-map-it
       custom:
         buildCommand: ./build.sh
   local:
@@ -15,5 +17,12 @@ deploy:
   helm:
     releases:
       - name: config-map-it
+        chartPath: src/main/helm
         artifactOverrides:
+          # skaffold will override this with a different tag
           image: zero-x/spring-cloud-kubernetes/config-map-it
+        valuesFiles:
+          - src/main/helm/values.yaml
+        wait: true
+        setValues:
+          namespace: spring-k8s

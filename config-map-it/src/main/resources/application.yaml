@@ -1,0 +1,6 @@
+management:
+  health:
+    mine:
+      enabled: true
+    minebootstrap:
+      enable: false

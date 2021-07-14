@@ -20,6 +20,10 @@ declare -a subprojects_array
 #global array of clusters
 declare -a clusters
 
+#global array of docker images
+#there are usually two of them because of how skaffold tags images
+declare -a docker_images
+
 build_spring_cloud_kubernetes_project() {
   echo "starting to build spring-cloud-kubernetes project"
   local tmp_dir
@@ -56,14 +60,14 @@ kind_setup() {
 
   if [[ "${clusters[@]}" =~ "spring-k8s" ]]
   then
-    echo "cluster spring-k8s already present"
-    #TODO
-    #kind delete cluster --name spring-k8s
-    #kind create cluster --name spring-k8s --wait 10m
+    echo "cluster spring-k8s already present" # delete/create
+    kind delete cluster --name spring-k8s
+    kind create cluster --name spring-k8s --wait 10m
   else
-    # delete/create
     kind create cluster --name spring-k8s --wait 10m
   fi
+
+  kubectl create namespace spring-k8s
 }
 
 uninstall_kind() {
@@ -82,7 +86,10 @@ gradle_list_subprojects() {
   subprojects_array=($subprojects)
 }
 
-## this assumes helm and skaffold are installed. At some point I will validate this and make it nicer
+##################################################################################
+##################################################################################
+##################################################################################
+# this assumes helm/skaffold/helm-datree plugin on the machine, which is my case
 main() {
 
   ################################# 0 #################################
@@ -107,7 +114,15 @@ main() {
       echo "image : zero-x/spring-cloud-kubernetes/$i not present"
     else
       echo "deleting image : zero-x/spring-cloud-kubernetes/$i"
-      docker rmi zero-x/spring-cloud-kubernetes/$i
+      IFS=$'\n'
+      # find the image_id that we want to delete
+      local what_image_ids_command
+      what_image_ids_command="$(docker images --filter="reference=zero-x/spring-cloud-kubernetes/$i" --quiet)"
+      docker_images=($what_image_ids_command)
+      # skaffold builds 2 images
+      local docker_image_to_delete
+      docker_image_to_delete="zero-x/spring-cloud-kubernetes/config-map-it:${docker_images[1]}"
+      docker rmi -f $docker_image_to_delete
     fi
 
     local current_dir="$(pwd)"
@@ -117,12 +132,11 @@ main() {
   ################################# 4 #################################
     chmod +x build.sh
     skaffold build
-
-  # load docker image into kind, this is sort of like doing :
-  # "eval (minikube docker-env)" in case of minikube
-  ################################# 5 #################################
-    kind load docker-image zero-x/spring-cloud-kubernetes/$i --name spring-k8s
+    tag=$(echo tag.txt)
+    skaffold deploy --images $tag
     cd ..
+
+
 
   done
 
