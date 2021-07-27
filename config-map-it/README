@@ -1,0 +1,3 @@
+This handles the tests for the easiest case : a single entry in present in our config map. As such the name of the file is irrelevant,
+we just read it's data. That data is stored in a yaml format.
+

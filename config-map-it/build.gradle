@@ -12,7 +12,8 @@ version '0.0.1'
 
 dependencies {
     // 100.100.100-SNAPSHOT is build by run.sh
-    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-config:2.0.3'
+    implementation 'org.springframework.cloud:spring-cloud-kubernetes-fabric8-config:100.100.100-SNAPSHOT'
+    implementation 'org.springframework.boot:spring-boot-starter:2.5.2'
 }
 
 test {

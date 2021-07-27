@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-single-yaml
+  namespace: spring-k8s
+data:
+  irrelevant-name.yaml: |
+    no-name:
+      yaml:
+        key1: no-name-value1
+        key2: no-name-value2

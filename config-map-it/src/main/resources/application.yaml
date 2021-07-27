@@ -1,6 +1,4 @@
-management:
-  health:
-    mine:
-      enabled: true
-    minebootstrap:
-      enable: false
+logging:
+  level:
+    org:
+      springframework: DEBUG

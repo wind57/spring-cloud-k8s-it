@@ -60,11 +60,11 @@ kind_setup() {
   IFS=$'\n'
   clusters=($what_clusters);
 
-  if [[ "${clusters[@]}" =~ "spring-k8s" ]]
+  if [[ "${#clusters[*]}" -ne 0 && "${clusters[@]}" =~ "spring-k8s" ]]
   then
     echo "cluster spring-k8s already present"
     kind delete cluster --name spring-k8s
-    kind create cluster --name spring-k8s --wait 10m
+    kind create cluster --config=cluster.yaml --name spring-k8s --wait 10m
   else
     kind create cluster --name spring-k8s --wait 10m
   fi
@@ -95,7 +95,6 @@ skaffold_it() {
   deploy_tag="$(cat tag.json | jq '.builds[].tag' | cut -d '"' -f 2)"
   kind load docker-image "${deploy_tag}" --name spring-k8s
   skaffold deploy -a tag.json
-  cd ..
 }
 
 ##################################################################################
@@ -139,6 +138,8 @@ main() {
     local proj_dir="$current_dir/$i"
     cd $proj_dir
     skaffold_it
+    gradle test
+    helm uninstall $i
 
   ################################# 4 #################################
 
@@ -148,5 +149,12 @@ main() {
 #  #uninstall_kind
 
 }
+
+#main() {
+#  #build_spring_cloud_kubernetes_project
+#  cd config-map-it
+#  skaffold_it
+#
+#}
 
 main

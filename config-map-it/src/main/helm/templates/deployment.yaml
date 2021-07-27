@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: config-map-it
+        type: config-map-it
     spec:
       #automountServiceAccountToken: false # interesting option
       containers:

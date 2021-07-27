@@ -1,27 +1,55 @@
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 import java.util.function.Supplier;
 
 public class Del {
 
     public static void main(String[] args) {
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        map.put(1,1);
-        map.put(2,2);
-        map.put(3,3);
+        CompletableFuture[] arr = new CompletableFuture[1];
+        arr[0] = testMe(new Input());
 
-        System.out.println("map: " + map);
+        CompletableFuture.allOf(arr)
+                .whenComplete((x, y) -> {
+                    System.out.println("done");
+                });
 
-        Map<Integer, Integer> fromMap = map.tailMap(2);
+        LockSupport.parkNanos(TimeUnit.SECONDS.toNanos(10));
+    }
 
-        System.out.println("fromMap: " + fromMap);
+    static CompletableFuture<Void> testMe(Input input) {
+        return
+        one(input)
+                .thenAccept(input::setId)
+                .thenAccept(void_ -> oneMore());
+                //.thenCompose(void_ -> oneMore());
+    }
 
-        Iterator<Map.Entry<Integer, Integer>> iter = fromMap.entrySet().iterator();
-        Map.Entry<Integer, Integer> entry = iter.next();
-        System.out.println(entry); // line 1
-        iter.remove();
-        System.out.println(entry); // line 2. Why entry content changes?
+    static CompletableFuture<Long> one(Input input) {
+        System.out.println("one started");
+        return CompletableFuture.supplyAsync(() -> {
+            LockSupport.parkNanos(TimeUnit.SECONDS.toNanos(5));
+            return 42L;
+        });
+    }
+
+    static CompletableFuture<Void> oneMore() {
+        System.out.println("one more started");
+        LockSupport.parkNanos(TimeUnit.SECONDS.toNanos(2));
+        System.out.println("one more done");
+        return CompletableFuture.completedFuture(null);
+    }
+
+    static class Input {
+
+        private Long value;
+
+        void setId(long value) {
+            this.value = value;
+        }
     }
 
 }

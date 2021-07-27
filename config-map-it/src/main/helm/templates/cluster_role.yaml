@@ -4,5 +4,5 @@ metadata:
   name: config-map-it-cluster-role
 rules:
 - apiGroups: [""]
-  resources: ["secrets", "services", "pods", "namespaces"]
+  resources: ["secrets", "services", "pods", "namespaces", "configmaps"]
   verbs: ["get", "watch", "list"]
