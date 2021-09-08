@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-multiple-maps-duplicate-entries-kubernetes
+  namespace: spring-k8s
+data:
+  application.properties: |
+    mykey1=value2

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secrets-it
+  namespace: spring-k8s
+spec:
+  selector:
+    matchLabels:
+      app: secrets-it
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: secrets-it
+        type: secrets-it
+    spec:
+      #automountServiceAccountToken: false # interesting option
+      containers:
+        - name: {{ .Chart.Name }}
+          #this actually comes from 'artifactOverrides' in skaffold.yaml
+          image: {{ .Values.image }}
+          #non-standard because of skaffold + helm : imagePullPolicy: .Values.imageConfig.pullPolicy
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      serviceAccountName: secrets-it-service-account

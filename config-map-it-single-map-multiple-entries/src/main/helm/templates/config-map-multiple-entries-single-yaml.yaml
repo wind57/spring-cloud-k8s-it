@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-multiple-entries-single-yaml
+  namespace: spring-k8s
+data:
+  application.yaml: |
+    from:
+      yaml:
+        key1: value1
+  application.properties: |
+    from.properties.key2=value2
+  no-name.no-extension: value3

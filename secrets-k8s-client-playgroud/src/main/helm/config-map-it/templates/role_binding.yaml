@@ -1,0 +1,14 @@
+#kubectl get rolebindings --all-namespaces | grep config
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: spring-k8s
+  name: secrets-it-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: secrets-it-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: secrets-it-service-account
+    namespace: spring-k8s

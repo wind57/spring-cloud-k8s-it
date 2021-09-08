@@ -1,0 +1,28 @@
+apiVersion: skaffold/v2beta17
+kind: Config
+build:
+  tagPolicy:
+    gitCommit: {}
+  artifacts:
+    - image: zero-x/spring-cloud-kubernetes/secrets-it
+      custom:
+        buildCommand: ./build.sh
+  local:
+    useDockerCLI: false
+    useBuildkit: false
+    push: false
+
+
+deploy:
+  helm:
+    releases:
+      - name: secrets-it
+        chartPath: src/main/helm
+        artifactOverrides:
+          # skaffold will override this with a different tag
+          image: zero-x/spring-cloud-kubernetes/secrets-it
+        valuesFiles:
+          - src/main/helm/values.yaml
+        wait: true
+        setValues:
+          namespace: spring-k8s

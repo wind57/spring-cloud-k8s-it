@@ -1,0 +1,30 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "tagDatabase": {
+          "tag": "1"
+        },
+        "id": "1",
+        "author": "wind57",
+        "context": "prod",
+        "labels": "blue",
+        "sql": "CREATE TABLE tags (tag text, count int, PRIMARY KEY (tag));",
+        "rollback": "DROP TABLE tags;"
+      }
+    },
+    {
+      "changeSet": {
+        "tagDatabase": {
+          "tag": "2"
+        },
+        "id": "2",
+        "author": "wind57",
+        "context": "prod",
+        "labels": "red",
+        "sql": "CREATE TABLE tags_2 (tag text, count int, PRIMARY KEY (tag));",
+        "rollback": "DROP TABLE tags_2;"
+      }
+    }
+  ]
+}

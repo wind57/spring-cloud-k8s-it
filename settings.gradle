@@ -1,3 +1,11 @@
 rootProject.name = 'spring-cloud-kubernetes-it'
 include 'config-map-it'
+include 'config-map-it-single-map-multiple-entries'
+include 'config-map-it-single-file-duplicates'
+include 'config-map-multiple-maps-duplicate-entries'
+include 'config-map-it-multiple-maps-duplicate-entries-fix'
+include 'ok-http-sandbox'
+include 'config-map-k8s-client'
+include 'secrets-k8s-client-playgroud'
+include 'liquibase_cassandra'
 

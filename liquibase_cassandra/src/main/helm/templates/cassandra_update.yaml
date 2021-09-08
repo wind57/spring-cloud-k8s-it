@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-update-job"
+  namespace: spring-k8s
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install, post-upgrade
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-cassandra-update-job"
+      namespace: spring-k8s
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: liquibase-cassandra-script-config-map
+          configMap:
+            name: config-map-cassandra-liquibase-script
+            defaultMode: 0755
+      containers:
+        - name: post-install-upgrade-job
+          volumeMounts:
+            - name: liquibase-cassandra-script-config-map
+              mountPath: /liquibase-cassandra-script
+          image: "ubuntu:latest"
+          command: ["/bin/bash"]
+          args:
+            - "-c"
+            - "apt update; apt upgrade; apt install -y curl; apt install -y unzip; apt install less; apt install -y openjdk-13-jre; cd liquibase-cassandra-script; ./liquibase-cassandra.sh --username {{ .Values.liquibase.username }} --password {{ .Values.liquibase.username }} --url {{ .Values.liquibase.url | squote }} --file {{ .Values.liquibase.file }}"

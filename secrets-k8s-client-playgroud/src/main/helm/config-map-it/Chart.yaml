@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: 1.0.1
+description: version-default
+name: config-map-it
+type: application
+version: 1.0.0

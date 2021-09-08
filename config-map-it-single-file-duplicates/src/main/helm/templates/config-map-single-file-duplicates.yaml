@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-single-file-duplicates
+  namespace: spring-k8s
+data:
+  application.yaml: |
+    mykey: myvalue
+  application.properties: |
+    mykey=myvalue

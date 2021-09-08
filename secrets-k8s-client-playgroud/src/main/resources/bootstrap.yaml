@@ -1,0 +1,14 @@
+logging:
+  level:
+    org:
+      springframework: DEBUG
+
+spring:
+  cloud:
+    kubernetes:
+      enabled: true
+      secrets:
+        enableApi: true
+        enabled: true
+        sources:
+          - name: mysecret

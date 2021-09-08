@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "config-map-cassandra-liquibase-script"
+  namespace: spring-k8s
+data:
+{{ (.Files.Glob "resources/*").AsConfig | indent 2 }}

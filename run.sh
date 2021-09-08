@@ -64,9 +64,9 @@ kind_setup() {
   then
     echo "cluster spring-k8s already present"
     kind delete cluster --name spring-k8s
-    kind create cluster --config=cluster.yaml --name spring-k8s --wait 10m
+    kind create cluster --config=cluster.yaml --name spring-k8s --wait 10m --quite
   else
-    kind create cluster --name spring-k8s --wait 10m
+    kind create cluster --config=cluster.yaml --name spring-k8s --wait 10m --quite
   fi
 
   kubectl create namespace spring-k8s
@@ -101,60 +101,60 @@ skaffold_it() {
 ##################################################################################
 ##################################################################################
 # this assumes helm/skaffold/helm-datree plugin on the machine, which is my case
-main() {
-
-#  ################################# 0 #################################
-   kind_setup
-#
-#  ################################# 1 #################################
-   #build_spring_cloud_kubernetes_project
-#
-#  ################################# 2 #################################
-   gradle_list_subprojects
-
-  for i in "${subprojects_array[@]}"
-  do
-
-    ################################# 3 #################################
-    # docker remove the previous image, if it exists
-    local x
-    x=$(docker images | grep -c zero-x/spring-cloud-kubernetes/$i || true)
-    if [ "0" -eq "$x" ]
-    then
-      echo "image : zero-x/spring-cloud-kubernetes/$i not present"
-    else
-      echo "deleting image : zero-x/spring-cloud-kubernetes/$i"
-      IFS=$'\n'
-      # find the image_id that we want to delete
-      local what_image_ids_command
-      what_image_ids_command="$(docker images --filter="reference=zero-x/spring-cloud-kubernetes/$i" --quiet)"
-      docker_images=($what_image_ids_command)
-      local docker_image_to_delete
-      docker_image_to_delete="zero-x/spring-cloud-kubernetes/config-map-it:${docker_images[1]}"
-      docker rmi -f $docker_image_to_delete
-    fi
-
-    local current_dir="$(pwd)"
-    local proj_dir="$current_dir/$i"
-    cd $proj_dir
-    skaffold_it
-    gradle test
-    helm uninstall $i
-
-  ################################# 4 #################################
-
-  done
-#
-#  ################################# 6 #################################
-#  #uninstall_kind
-
-}
-
 #main() {
-#  #build_spring_cloud_kubernetes_project
-#  cd config-map-it
-#  skaffold_it
+#
+##  ################################# 0 #################################
+#   kind_setup
+##
+##  ################################# 1 #################################
+#   #build_spring_cloud_kubernetes_project
+##
+##  ################################# 2 #################################
+#   gradle_list_subprojects
+#
+#  for i in "${subprojects_array[@]}"
+#  do
+#
+#    ################################# 3 #################################
+#    # docker remove the previous image, if it exists
+#    local x
+#    x=$(docker images | grep -c zero-x/spring-cloud-kubernetes/$i || true)
+#    if [ "0" -eq "$x" ]
+#    then
+#      echo "image : zero-x/spring-cloud-kubernetes/$i not present"
+#    else
+#      echo "deleting image : zero-x/spring-cloud-kubernetes/$i"
+#      IFS=$'\n'
+#      # find the image_id that we want to delete
+#      local what_image_ids_command
+#      what_image_ids_command="$(docker images --filter="reference=zero-x/spring-cloud-kubernetes/$i" --quiet)"
+#      docker_images=($what_image_ids_command)
+#      local docker_image_to_delete
+#      docker_image_to_delete="zero-x/spring-cloud-kubernetes/config-map-it:${docker_images[1]}"
+#      docker rmi -f $docker_image_to_delete
+#    fi
+#
+#    local current_dir="$(pwd)"
+#    local proj_dir="$current_dir/$i"
+#    cd $proj_dir
+#    skaffold_it
+#    gradle test
+#    helm uninstall $i
+#
+#  ################################# 4 #################################
+#
+#  done
+##
+##  ################################# 6 #################################
+##  #uninstall_kind
 #
 #}
+
+main() {
+  # build_spring_cloud_kubernetes_project
+  cd liquibase_cassandra
+  #cd config-map-it
+  skaffold_it
+}
 
 main

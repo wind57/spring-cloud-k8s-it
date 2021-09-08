@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    kubernetes:
+      config:
+        namespace: spring-k8s
+        sources:
+          - name: config-map-multiple-entries-single-yaml
