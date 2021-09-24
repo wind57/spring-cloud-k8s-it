@@ -19,15 +19,17 @@ PASSWORD=""
 USERNAME=""
 CHANGE_LOG_FILE=""
 URL=""
+CHANGE_LOG_TABLE_NAME=""
 
 main() {
 	validate_arguments
 	print_arguments
-	liquibase_tmp_dir
-	download_and_unzip_liquibase
-	download_and_install_simba_driver
-	download_and_install_liquibase_cassandra_extension
-	liquibase_status_check
+# these have been moved to the image itself
+#	liquibase_tmp_dir
+#	download_and_unzip_liquibase
+#	download_and_install_simba_driver
+#	download_and_install_liquibase_cassandra_extension
+#	liquibase_status_check
 	liquibase_update
 }
 
@@ -40,6 +42,7 @@ liquibase_status_check() {
 	            --url $URL \
 	            --changelog-file $CHANGE_LOG_FILE \
 	            --log-level INFO \
+	            --database-changelog-table-name $CHANGE_LOG_TABLE_NAME \
 	            --driver com.simba.cassandra.jdbc42.Driver \
 	            status
 
@@ -55,6 +58,7 @@ liquibase_update() {
 	            --url $URL \
 	            --changelog-file $CHANGE_LOG_FILE \
 	            --log-level INFO \
+	            --database-changelog-table-name $CHANGE_LOG_TABLE_NAME \
 	            --driver com.simba.cassandra.jdbc42.Driver \
 	            --headless true \
 	            update
@@ -73,6 +77,7 @@ print_arguments() {
 	printf "Username: '%s'\r\n" "$USERNAME"
 	printf "URL: '%s'\r\n" "$URL"
 	printf "change log file: '%s'\r\n" "$CHANGE_LOG_FILE"
+	printf "change log table name '%s'\r\n" "$CHANGE_LOG_TABLE_NAME"
 	printf "####################################################################\n"
 }
 
@@ -80,7 +85,7 @@ print_arguments() {
 ################################### Helper to check the latest result ########################################
 ##############################################################################################################
 validate_arguments() {
-	if [ -z $PASSWORD ] || [ -z $USERNAME ] || [ -z $URL ] || [ -z $CHANGE_LOG_FILE ]; then
+	if [ -z $PASSWORD ] || [ -z $USERNAME ] || [ -z $URL ] || [ -z $CHANGE_LOG_FILE ] || [ -z $CHANGE_LOG_TABLE_NAME ]; then
     show_usage
     exit 1
   fi
@@ -174,7 +179,7 @@ while [[ $# -gt 0 ]]; do
 	arg="$1"
 	case ${arg} in
 
-		-p | --password    )      PASSWORD=$2
+		-p | --password    )          PASSWORD=$2
                                   shift 2
                                   ;;
 
@@ -187,6 +192,10 @@ while [[ $# -gt 0 ]]; do
                                   ;;
 
         -f | --file        )      CHANGE_LOG_FILE=$2
+                                  shift 2
+                                  ;;
+
+        -tn | --table-name )      CHANGE_LOG_TABLE_NAME=$2
                                   shift 2
                                   ;;
 

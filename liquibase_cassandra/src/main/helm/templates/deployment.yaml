@@ -20,7 +20,7 @@ spec:
           #this actually comes from 'artifactOverrides' in skaffold.yaml
           image: {{ .Values.image }}
           #non-standard because of skaffold + helm : imagePullPolicy: .Values.imageConfig.pullPolicy
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
       serviceAccountName: liq-cassandra-service-account

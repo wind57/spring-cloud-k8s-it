@@ -1,0 +1,36 @@
+1.  First I need an image where liquibase script is going to be present on
+    so that it could be run from the helm job. liquibase-cassandra comes as an add-on,
+    so there are a few things needed pre-installed (like Simba driver, liquibase extension and jdbc driver).
+    I also copy the liquibase-cassandra.sh into the image.
+
+    For that purpose I have a docker-cassandra file and build an image out of that.
+
+2.  docker build -t lq/liquibase-cassandra:1.0.0 -f dockerfile-cassandra .
+    docker run -it lq/liquibase-cassandra:1.0.0  (if you want to check the install in the container)
+
+3.  I am using skaffold here to deploy this (but it is entirely irrelevant how it is deployed)
+    since this is a dummy spring-boot app and a helm pre-install/pre-upgrade job.
+
+4.  In case the cluster is not there :
+
+    kind create cluster --config=cluster.yaml --name spring-k8s --wait 10m --quiet
+    kind load docker-image lq/liquibase-cassandra:1.0.0 --name spring-k8s
+    kubectl create namespace spring-k8s
+    ./skaffold-it
+    helm uninstall liq-cassandra (if above failed and need to clean-up)
+
+5. Need cassandra running locally. Minor changes I made:
+
+   listen_address: 192.168.0.5 # [node-ip]
+   - seeds: 192.168.0.5
+
+   cqlsh 192.168.0.5
+
+6. I am using two pre-install/pre-upgrade hooks, one for ConfigMap (so that database changelog file is mounted on the image
+   where I ran the liquibase cli), and one for the actual job.
+   The ConfigMap has : helm.sh/hook-delete-policy: hook-succeeded, so it is removed as soon as the Job is done.
+
+7. https://docs.liquibase.com/commands/home.html
+   Liquibase has an extensive list of commands, not all are supported for cassandra though.
+
+8.

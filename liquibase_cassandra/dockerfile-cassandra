@@ -1,0 +1,21 @@
+FROM ubuntu:latest
+
+RUN apt update
+RUN apt upgrade -y
+RUN apt install -y curl
+RUN apt install -y unzip
+RUN apt install less
+RUN apt install -y openjdk-13-jre
+
+### liquibase cassandra related
+
+RUN curl -LO -s https://github.com/liquibase/liquibase/releases/download/v4.4.3/liquibase-4.4.3.zip
+RUN find . -name 'liquibase*.zip' -type f -exec unzip -qq {} \;
+RUN curl -LO -s https://downloads.datastax.com/jdbc/cql/2.0.8.1009/SimbaCassandraJDBC42-2.0.8.1009.zip
+RUN find . -name 'SimbaCassandraJDB*.zip' -type f -exec unzip -qq {} \;
+RUN find . -name 'CassandraJDBC*.jar' -type f -exec cp {} lib \;
+RUN curl -LO -s https://github.com/liquibase/liquibase-cassandra/releases/download/liquibase-cassandra-4.4.3/liquibase-cassandra-4.4.3.jar
+RUN find . -name 'liquibase-cassandra*.jar' -type f -exec cp -i {} lib \;
+
+COPY liquibase-cassandra.sh /
+RUN chmod +x liquibase-cassandra.sh

@@ -11,7 +11,7 @@ metadata:
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
-    "helm.sh/hook": post-install, post-upgrade
+    "helm.sh/hook": pre-install, pre-upgrade
     "helm.sh/hook-weight": "5"
     "helm.sh/hook-delete-policy": before-hook-creation
 spec:
@@ -26,17 +26,18 @@ spec:
     spec:
       restartPolicy: Never
       volumes:
-        - name: liquibase-cassandra-script-config-map
+        - name: liquibase-changelog-config-map
           configMap:
-            name: config-map-cassandra-liquibase-script
-            defaultMode: 0755
+            name: liquibase-changelog-config-map
+            defaultMode: 0777
       containers:
-        - name: post-install-upgrade-job
+        - name: pre-install-upgrade-job
           volumeMounts:
-            - name: liquibase-cassandra-script-config-map
-              mountPath: /liquibase-cassandra-script
-          image: "ubuntu:latest"
+            - name: liquibase-changelog-config-map
+              mountPath: /liquibase-changelog-file
+          image: "lq/liquibase-cassandra:1.0.0"
           command: ["/bin/bash"]
           args:
             - "-c"
-            - "apt update; apt upgrade; apt install -y curl; apt install -y unzip; apt install less; apt install -y openjdk-13-jre; cd liquibase-cassandra-script; ./liquibase-cassandra.sh --username {{ .Values.liquibase.username }} --password {{ .Values.liquibase.username }} --url {{ .Values.liquibase.url | squote }} --file {{ .Values.liquibase.file }}"
+            # hack for : https://github.com/liquibase/liquibase/issues/2104
+            - "cp liquibase-changelog-file/{{ printf "%s" .Values.liquibase.file }} .; ./liquibase-cassandra.sh --username {{ .Values.liquibase.username }} --password {{ .Values.liquibase.username }} --url {{ .Values.liquibase.url | squote }} --file {{ printf "%s" .Values.liquibase.file }} --table-name {{ printf "%s-database-changes" .Chart.Name }}"

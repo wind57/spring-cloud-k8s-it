@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# error handling
+set -o errexit;
+set -o pipefail;
+set -o nounset;
+# debug commands
+#set -x;
+
+skaffold_it() {
+  chmod +x build.sh
+  skaffold build --file-output=tag.json
+  deploy_tag="$(cat tag.json | jq '.builds[].tag' | cut -d '"' -f 2)"
+  kind load docker-image "${deploy_tag}" --name spring-k8s
+  skaffold deploy -a tag.json
+}
+
+main() {
+  skaffold_it
+}
+
+main
