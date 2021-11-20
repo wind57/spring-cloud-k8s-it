@@ -1,0 +1,27 @@
+apiVersion: skaffold/v2beta17
+kind: Config
+build:
+  tagPolicy:
+    gitCommit: {}
+  artifacts:
+    - image: zero-x/spring-cloud-kubernetes/conditional-on-platform
+      custom:
+        buildCommand: ./build.sh
+  local:
+    useDockerCLI: false
+    useBuildkit: false
+    push: false
+
+deploy:
+  helm:
+    releases:
+      - name: config-map-it
+        chartPath: src/main/helm
+        artifactOverrides:
+          # skaffold will override this with a different tag
+          image: zero-x/spring-cloud-kubernetes/conditional-on-platform
+        valuesFiles:
+          - src/main/helm/values.yaml
+        wait: true
+        setValues:
+          namespace: spring-k8s

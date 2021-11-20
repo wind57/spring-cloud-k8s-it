@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conditional-on-platform
+  namespace: spring-k8s
+spec:
+  selector:
+    matchLabels:
+      app: conditional-on-platform
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: conditional-on-platform
+        type: conditional-on-platform
+    spec:
+      #automountServiceAccountToken: false # interesting option
+      containers:
+        - name: {{ .Chart.Name }}
+          #this actually comes from 'artifactOverrides' in skaffold.yaml
+          image: {{ .Values.image }}
+          #non-standard because of skaffold + helm : imagePullPolicy: .Values.imageConfig.pullPolicy
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      serviceAccountName: conditional-on-platform-service-account

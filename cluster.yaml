@@ -6,3 +6,7 @@ nodes:
       - containerPort: 30008
         hostPort: 30008
         listenAddress: 127.0.0.1
+
+      - containerPort: 8080
+        hostPort: 8080
+        listenAddress: 127.0.0.1

@@ -1,0 +1,335 @@
+{
+  "activeProfiles": [
+    "kubernetes"
+  ],
+  "propertySources": [
+    {
+      "name": "server.ports",
+      "properties": {
+        "local.server.port": {
+          "value": 8080
+        }
+      }
+    },
+    {
+      "name": "bootstrapProperties-configmap.config-map-multiple-entries-single-yaml.spring-k8s",
+      "properties": {}
+    },
+    {
+      "name": "servletContextInitParams",
+      "properties": {}
+    },
+    {
+      "name": "systemProperties",
+      "properties": {
+        "java.specification.version": {
+          "value": "17"
+        },
+        "sun.jnu.encoding": {
+          "value": "UTF-8"
+        },
+        "java.class.path": {
+          "value": "/app.jar"
+        },
+        "java.vm.vendor": {
+          "value": "BellSoft"
+        },
+        "sun.arch.data.model": {
+          "value": "64"
+        },
+        "java.vendor.url": {
+          "value": "https://bell-sw.com/"
+        },
+        "catalina.useNaming": {
+          "value": "false"
+        },
+        "user.timezone": {
+          "value": "GMT"
+        },
+        "java.vm.specification.version": {
+          "value": "17"
+        },
+        "os.name": {
+          "value": "Linux"
+        },
+        "sun.java.launcher": {
+          "value": "SUN_STANDARD"
+        },
+        "user.country": {
+          "value": "US"
+        },
+        "sun.boot.library.path": {
+          "value": "/usr/lib/jvm/jdk-17.0.1-bellsoft-x86_64/lib"
+        },
+        "sun.java.command": {
+          "value": "******"
+        },
+        "jdk.debug": {
+          "value": "release"
+        },
+        "sun.cpu.endian": {
+          "value": "little"
+        },
+        "user.home": {
+          "value": "/root"
+        },
+        "user.language": {
+          "value": "en"
+        },
+        "java.specification.vendor": {
+          "value": "Oracle Corporation"
+        },
+        "java.version.date": {
+          "value": "2021-10-19"
+        },
+        "java.home": {
+          "value": "/usr/lib/jvm/jdk-17.0.1-bellsoft-x86_64"
+        },
+        "file.separator": {
+          "value": "/"
+        },
+        "java.vm.compressedOopsMode": {
+          "value": "32-bit"
+        },
+        "line.separator": {
+          "value": "\n"
+        },
+        "java.specification.name": {
+          "value": "Java Platform API Specification"
+        },
+        "java.vm.specification.vendor": {
+          "value": "Oracle Corporation"
+        },
+        "FILE_LOG_CHARSET": {
+          "value": "UTF-8"
+        },
+        "java.awt.headless": {
+          "value": "true"
+        },
+        "java.protocol.handler.pkgs": {
+          "value": "org.springframework.boot.loader"
+        },
+        "sun.management.compiler": {
+          "value": "HotSpot 64-Bit Tiered Compilers"
+        },
+        "java.runtime.version": {
+          "value": "17.0.1+12-LTS"
+        },
+        "user.name": {
+          "value": "root"
+        },
+        "path.separator": {
+          "value": ":"
+        },
+        "os.version": {
+          "value": "5.10.47-linuxkit"
+        },
+        "java.runtime.name": {
+          "value": "OpenJDK Runtime Environment"
+        },
+        "file.encoding": {
+          "value": "UTF-8"
+        },
+        "spring.beaninfo.ignore": {
+          "value": "true"
+        },
+        "java.vm.name": {
+          "value": "OpenJDK 64-Bit Server VM"
+        },
+        "java.vendor.url.bug": {
+          "value": "https://bell-sw.com/support"
+        },
+        "java.io.tmpdir": {
+          "value": "/tmp"
+        },
+        "catalina.home": {
+          "value": "/tmp/tomcat.8080.1817853747700296454"
+        },
+        "java.version": {
+          "value": "17.0.1"
+        },
+        "user.dir": {
+          "value": "/"
+        },
+        "os.arch": {
+          "value": "amd64"
+        },
+        "java.vm.specification.name": {
+          "value": "Java Virtual Machine Specification"
+        },
+        "PID": {
+          "value": "1"
+        },
+        "CONSOLE_LOG_CHARSET": {
+          "value": "UTF-8"
+        },
+        "catalina.base": {
+          "value": "/tmp/tomcat.8080.1817853747700296454"
+        },
+        "native.encoding": {
+          "value": "UTF-8"
+        },
+        "java.library.path": {
+          "value": "/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"
+        },
+        "java.vm.info": {
+          "value": "mixed mode"
+        },
+        "java.vendor": {
+          "value": "BellSoft"
+        },
+        "java.vm.version": {
+          "value": "17.0.1+12-LTS"
+        },
+        "sun.io.unicode.encoding": {
+          "value": "UnicodeLittle"
+        },
+        "java.class.version": {
+          "value": "61.0"
+        }
+      }
+    },
+    {
+      "name": "systemEnvironment",
+      "properties": {
+        "KUBERNETES_PORT_443_TCP": {
+          "value": "tcp://10.96.0.1:443",
+          "origin": "System Environment Property \"KUBERNETES_PORT_443_TCP\""
+        },
+        "CONFIG_MAP_IT_PORT_8080_TCP_PROTO": {
+          "value": "tcp",
+          "origin": "System Environment Property \"CONFIG_MAP_IT_PORT_8080_TCP_PROTO\""
+        },
+        "LANGUAGE": {
+          "value": "en_US.UTF-8:en",
+          "origin": "System Environment Property \"LANGUAGE\""
+        },
+        "PATH": {
+          "value": "/usr/lib/jvm/jdk-17.0.1-bellsoft-x86_64/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "origin": "System Environment Property \"PATH\""
+        },
+        "CONFIG_MAP_IT_SERVICE_PORT": {
+          "value": "8080",
+          "origin": "System Environment Property \"CONFIG_MAP_IT_SERVICE_PORT\""
+        },
+        "KUBERNETES_PORT_443_TCP_ADDR": {
+          "value": "10.96.0.1",
+          "origin": "System Environment Property \"KUBERNETES_PORT_443_TCP_ADDR\""
+        },
+        "CONFIG_MAP_IT_PORT_8080_TCP_PORT": {
+          "value": "8080",
+          "origin": "System Environment Property \"CONFIG_MAP_IT_PORT_8080_TCP_PORT\""
+        },
+        "KUBERNETES_PORT": {
+          "value": "tcp://10.96.0.1:443",
+          "origin": "System Environment Property \"KUBERNETES_PORT\""
+        },
+        "JAVA_HOME": {
+          "value": "/usr/lib/jvm/jdk-17.0.1-bellsoft-x86_64",
+          "origin": "System Environment Property \"JAVA_HOME\""
+        },
+        "KUBERNETES_PORT_443_TCP_PROTO": {
+          "value": "tcp",
+          "origin": "System Environment Property \"KUBERNETES_PORT_443_TCP_PROTO\""
+        },
+        "KUBERNETES_SERVICE_HOST": {
+          "value": "10.96.0.1",
+          "origin": "System Environment Property \"KUBERNETES_SERVICE_HOST\""
+        },
+        "CONFIG_MAP_IT_PORT_8080_TCP": {
+          "value": "tcp://10.96.183.74:8080",
+          "origin": "System Environment Property \"CONFIG_MAP_IT_PORT_8080_TCP\""
+        },
+        "LANG": {
+          "value": "en_US.UTF-8",
+          "origin": "System Environment Property \"LANG\""
+        },
+        "CONFIG_MAP_IT_PORT_8080_TCP_ADDR": {
+          "value": "10.96.183.74",
+          "origin": "System Environment Property \"CONFIG_MAP_IT_PORT_8080_TCP_ADDR\""
+        },
+        "KUBERNETES_SERVICE_PORT": {
+          "value": "443",
+          "origin": "System Environment Property \"KUBERNETES_SERVICE_PORT\""
+        },
+        "HOSTNAME": {
+          "value": "conditional-on-platform-54484bc95f-gdjrk",
+          "origin": "System Environment Property \"HOSTNAME\""
+        },
+        "CONFIG_MAP_IT_PORT": {
+          "value": "tcp://10.96.183.74:8080",
+          "origin": "System Environment Property \"CONFIG_MAP_IT_PORT\""
+        },
+        "KUBERNETES_PORT_443_TCP_PORT": {
+          "value": "443",
+          "origin": "System Environment Property \"KUBERNETES_PORT_443_TCP_PORT\""
+        },
+        "CONFIG_MAP_IT_SERVICE_PORT_HTTP": {
+          "value": "8080",
+          "origin": "System Environment Property \"CONFIG_MAP_IT_SERVICE_PORT_HTTP\""
+        },
+        "KUBERNETES_SERVICE_PORT_HTTPS": {
+          "value": "443",
+          "origin": "System Environment Property \"KUBERNETES_SERVICE_PORT_HTTPS\""
+        },
+        "HOME": {
+          "value": "/root",
+          "origin": "System Environment Property \"HOME\""
+        },
+        "CONFIG_MAP_IT_SERVICE_HOST": {
+          "value": "10.96.183.74",
+          "origin": "System Environment Property \"CONFIG_MAP_IT_SERVICE_HOST\""
+        }
+      }
+    },
+    {
+      "name": "KUBERNETES_NAMESPACE_PROPERTY_SOURCE",
+      "properties": {
+        "spring.cloud.kubernetes.client.namespace": {
+          "value": "spring-k8s"
+        }
+      }
+    },
+    {
+      "name": "springCloudClientHostInfo",
+      "properties": {
+        "spring.cloud.client.hostname": {
+          "value": "conditional-on-platform-54484bc95f-gdjrk"
+        },
+        "spring.cloud.client.ip-address": {
+          "value": "10.244.0.6"
+        }
+      }
+    },
+    {
+      "name": "Config resource 'class path resource [application.yaml]' via location 'optional:classpath:/'",
+      "properties": {
+        "logging.level.org.springframework": {
+          "value": "DEBUG",
+          "origin": "class path resource [application.yaml] from app.jar - 4:24"
+        },
+        "management.endpoints.web.exposure.include": {
+          "value": "env",
+          "origin": "class path resource [application.yaml] from app.jar - 10:18"
+        }
+      }
+    },
+    {
+      "name": "Config resource 'class path resource [bootstrap.yaml]' via location 'optional:classpath:/'",
+      "properties": {
+        "spring.cloud.kubernetes.config.namespace": {
+          "value": "spring-k8s",
+          "origin": "class path resource [bootstrap.yaml] from app.jar - 5:20"
+        },
+        "spring.cloud.kubernetes.config.sources[0].name": {
+          "value": "config-map-multiple-entries-single-yaml",
+          "origin": "class path resource [bootstrap.yaml] from app.jar - 7:19"
+        }
+      }
+    },
+    {
+      "name": "springCloudDefaultProperties",
+      "properties": {}
+    }
+  ]
+}

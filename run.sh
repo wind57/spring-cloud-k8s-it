@@ -9,7 +9,7 @@ set -o nounset;
 
 # a version that will be used to build the spring-cloud-kubernetes project
 # used only for integration-tests
-SPRING_CLOUD_KUBERNETES_VERSION="100.100.100-SNAPSHOT"
+SPRING_CLOUD_KUBERNETES_VERSION="100.100.103-SNAPSHOT"
 
 #path of the spring-cloud-kubernetes-project
 SPRING_CLOUD_KUBERNETES_PATH=/Users/erabii784/Documents/personal/spring/spring-cloud-kubernetes
@@ -151,10 +151,10 @@ skaffold_it() {
 #}
 
 main() {
-  # build_spring_cloud_kubernetes_project
-  cd liquibase_cassandra
+  build_spring_cloud_kubernetes_project
+  #cd conditional-on-platform
   #cd config-map-it
-  skaffold_it
+  #skaffold_it
 }
 
 main

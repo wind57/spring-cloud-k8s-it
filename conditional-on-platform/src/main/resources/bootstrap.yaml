@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    kubernetes:
+      config:
+        #namespace: spring-k8s
+        enableApi: true
+        sources:
+          - name: my-config-map
