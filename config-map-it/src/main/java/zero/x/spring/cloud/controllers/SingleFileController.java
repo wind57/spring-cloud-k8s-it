@@ -23,4 +23,9 @@ public class SingleFileController {
         return service.getKey2();
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
+
 }

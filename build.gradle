@@ -6,6 +6,11 @@ plugins {
 group 'zero.x.spring'
 version 'k8s-it'
 
+helm {
+    version '3.0.2'
+    helmDownloadUrl 'https://get.helm.sh/helm-v3.7.1-darwin-arm64.tar.gz'
+}
+
 subprojects {
 
     apply plugin: 'java'

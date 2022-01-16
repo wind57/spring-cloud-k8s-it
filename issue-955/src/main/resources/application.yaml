@@ -1,0 +1,14 @@
+management:
+  endpoints:
+    web:
+      base-path: /manager
+      exposure:
+        include: 'health,info'
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+    kubernetes:
+      enabled: false

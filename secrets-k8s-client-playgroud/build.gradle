@@ -1,20 +1,34 @@
 plugins {
+    id 'org.springframework.boot' version '2.4.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'org.springframework.boot' version '2.5.2'
 }
 
-group 'zero.x.spring'
-version 'k8s-it'
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+    set('springCloudVersion', "2020.0.0")
 }
 
 dependencies {
-    //implementation 'org.springframework.cloud:spring-cloud-kubernetes-client-config:100.100.100-SNAPSHOT'
-    implementation 'org.springframework.cloud:spring-cloud-kubernetes-fabric8-config:100.100.102-SNAPSHOT'
-    implementation 'org.springframework.boot:spring-boot-starter:2.5.2'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.5.2'
+    //implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.0'
+    //implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    //testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //testImplementation 'io.projectreactor:reactor-test'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes:1.1.10.RELEASE'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 test {

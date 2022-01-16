@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-kubernetes-fabric8-config:100.100.100-SNAPSHOT'
+    implementation 'org.springframework.cloud:spring-cloud-kubernetes-fabric8-config:2.0.3'
     implementation 'org.springframework.boot:spring-boot-starter:2.5.2'
     implementation 'org.springframework.boot:spring-boot-starter-actuator:2.5.2'
 }
