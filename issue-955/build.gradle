@@ -10,6 +10,7 @@ plugins {
 
 ext {
     set('springCloudVersion', "2020.0.4")
+    set('springBootVersion', "2.5.4")
 }
 
 apply plugin: "io.spring.dependency-management"
@@ -28,8 +29,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client'
-    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-config:1.1.10.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
 }
 
 test {
